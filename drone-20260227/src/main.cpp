@@ -1,11 +1,18 @@
 #include <Arduino.h>
 
-// put function declarations here:
-int myFunction(int, int);
+#include <MPU6050.h>
+#include <i2Cdev.h>
+#include <Wire.h>
+
+#include "IMU.h"
+
+MPU6050 mpu;
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  Serial.begin(115200);
+  Wire.begin();
+  mpu.initialize();
+  initIMU();
 }
 
 void loop() {
