@@ -3,9 +3,6 @@ Raw Data 로드, calibration, 상보 필터 */
 
 #include <Arduino.h>
 
-#include <MPU6050.h>
-#include <i2Cdev.h>
-
 #include "IMU.h"
 
 
@@ -18,7 +15,7 @@ void initIMU() {
 
     Wire.beginTransmission(MPU6050_ADDR);
     Wire.write(0x1B);  /* GYRO_CONFIG 레지스터 */
-    Wire.write(0x08);  /* 자이로 센서 감도 ±250°/s */
+    Wire.write(0x08);  /* 자이로 센서 감도 ±500°/s */
     Wire.endTransmission(true);
 
     Wire.beginTransmission(MPU6050_ADDR);
@@ -28,17 +25,11 @@ void initIMU() {
 
     for (int i = 0; i < 2000; i++) {
         readIMU();
-        AX_offset += AX;
-        AY_offset += AY;
-        AZ_offset += AZ;
         GX_offset += GX;
         GY_offset += GY;
         GZ_offset += GZ;
         delay(3);
     }
-    AX_offset /= 2000;
-    AY_offset /= 2000;
-    AZ_offset /= 2000;
     GX_offset /= 2000;
     GY_offset /= 2000;
     GZ_offset /= 2000;
@@ -53,12 +44,16 @@ void readIMU() {
     AX = Wire.read() << 8 | Wire.read();
     AY = Wire.read() << 8 | Wire.read();
     AZ = Wire.read() << 8 | Wire.read();
+    Wire.read(); Wire.read();  /* 온도 데이터 버림 */
     GX = Wire.read() << 8 | Wire.read();
     GY = Wire.read() << 8 | Wire.read();
     GZ = Wire.read() << 8 | Wire.read();
 }
 
-void calcRP() {
-    Roll = atan2(AY, AZ) * 180 / PI;
-    Pitch = atan2(-AX, sqrt(AY * AY + AZ * AZ)) * 180 / PI;
+void calcAg() {
+    float A_Roll = atan2(AY, AZ) * 180 / PI;
+    float A_Pitch = atan2(-AX, sqrt((float)AY * (float)AY + (float)AZ * (float)AZ)) * 180 / PI;
+    float Gx = ((float)GX - GX_offset) / 65.5f; float Gy = ((float)GY - GY_offset) / 65.5f; float Gz = ((float)GZ - GZ_offset) / 65.5f;
+    Roll = 0.998f * (Roll + Gx * DT) + 0.002f * A_Roll;
+    Pitch = 0.998f * (Pitch + Gy * DT) + 0.002f * A_Pitch;
 }
