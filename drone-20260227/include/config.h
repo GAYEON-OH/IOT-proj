@@ -14,6 +14,10 @@
 #define MOTOR_MIN 1000
 #define MOTOR_MAX 2000
 
+#define MAX_ROLL_ANGLE 30.0f
+#define MAX_PITCH_ANGLE 30.0f
+#define MAX_YAW_ANGLE 180.0f
+
 /* PID 제어 주기, 250HZ, dt = 4000 / 1000000, 0.004초 */
 #define LOOP_TIME 4000
 #define DT 0.004f
