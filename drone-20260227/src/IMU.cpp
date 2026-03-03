@@ -50,7 +50,7 @@ void readIMU() {
     GZ = Wire.read() << 8 | Wire.read();
 }
 
-void calcAg() {
+void calcRP() {
     float A_Roll = atan2(AY, AZ) * 180 / PI;
     float A_Pitch = atan2(-AX, sqrt((float)AY * (float)AY + (float)AZ * (float)AZ)) * 180 / PI;
     float Gx = ((float)GX - GX_offset) / 65.5f; float Gy = ((float)GY - GY_offset) / 65.5f; float Gz = ((float)GZ - GZ_offset) / 65.5f;

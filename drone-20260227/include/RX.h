@@ -1,19 +1,9 @@
-#include "config.h"
-#include "PinChangeInterrupt.h"
+#include <config.h>
+#include <SoftwareSerial.h>
 
-volatile int RX_roll = 0, RX_pitch = 0, RX_yaw = 0, RX_throttle = 0;
-
-void initRX() {
-}
-
-void calcRoll() {
-}
-
-void calcPitch() {
-}
-
-void calcYaw() {
-}
-
-void calcThrottle() {
-}
+extern SoftwareSerial btSerial;
+extern float target_Roll;
+extern float target_Pitch;
+extern int base_Throttle;
+void initRX();
+void readBluetooth();
