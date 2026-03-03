@@ -9,6 +9,12 @@ static float roll_int = 0.0f, pitch_int = 0.0f, yaw_int = 0.0f;
 static float roll_prev = 0.0f, pitch_prev = 0.0f, yaw_prev = 0.0f;
 static unsigned long last_time = 0;
 
+void initPID() {
+    roll_int = pitch_int = yaw_int = 0.0f;  // 적분값 초기화
+    roll_prev = pitch_prev = yaw_prev = 0.0f; // 이전 오차 초기화
+}
+
+
 float calcPID_Roll(float targetRoll, float currentRoll) {
     // dt 계산 (config.h의 LOOP_TIME 기반)
     unsigned long now = micros();
