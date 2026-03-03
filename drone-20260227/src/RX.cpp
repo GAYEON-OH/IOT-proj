@@ -1,48 +1,44 @@
-/* 수신기 제어
-외부 인터럽트, 핀 체인지 인터럽트, 명령 기록 */
-
 #include <Arduino.h>
 #include "RX.h"
 
+SoftwareSerial btSerial(10, 11); 
+
+unsigned long last_cmd_time = 0;
+
 void initRX() {
-    attachPinChangeInterrupt(digitalPinToPinChangeInterrupt(A0), calcRoll, CHANGE);
-    attachPinChangeInterrupt(digitalPinToPinChangeInterrupt(A1), calcPitch, CHANGE);
-    attachPinChangeInterrupt(digitalPinToPinChangeInterrupt(A2), calcYaw, CHANGE);
-    attachPinChangeInterrupt(digitalPinToPinChangeInterrupt(A3), calcThrottle, CHANGE);
+    btSerial.begin(9600);
+    target_Roll = 0.0f;
+    target_Pitch = 0.0f;
+    base_Throttle = 1000;
 }
 
-void calcRoll() {
-    static unsigned long crntTime;
-    if (digitalRead(A0) == HIGH) {
-        crntTime = micros();
-    } else {
-        RX_roll = (unsigned long)(micros() - crntTime);
+void readBluetooth() {
+    if (btSerial.available() > 0) {
+        char cmd = btSerial.read();
+        last_cmd_time = millis();
+
+        if (cmd == 'W' || cmd == 'w') target_Pitch += 1.0f;
+        else if (cmd == 'S' || cmd == 's') target_Pitch -= 1.0f;
+        else if (cmd == 'A' || cmd == 'a') target_Roll -= 1.0f;
+        else if (cmd == 'D' || cmd == 'd') target_Roll += 1.0f;
+        else if (cmd == 'T' || cmd == 't') base_Throttle += 10;
+        else if (cmd == 'G' || cmd == 'g') base_Throttle -= 10;
+        else if (cmd == 'X' || cmd == 'x') {
+            target_Roll = 0.0f; 
+            target_Pitch = 0.0f;
+        }
+
+        if (target_Pitch > 30.0f) target_Pitch = 30.0f;
+        if (target_Pitch < -30.0f) target_Pitch = -30.0f;
+        if (target_Roll > 30.0f) target_Roll = 30.0f;
+        if (target_Roll < -30.0f) target_Roll = -30.0f;
+        if (base_Throttle > 2000) base_Throttle = 2000;
+        if (base_Throttle < 1000) base_Throttle = 1000;
     }
-}
 
-void calcPitch() {
-    static unsigned long crntTime;
-    if (digitalRead(A1) == HIGH) {
-        crntTime = micros();
-    } else {
-        RX_pitch = (unsigned long)(micros() - crntTime);
-    }
-}
-
-void calcYaw() {
-    static unsigned long crntTime;
-    if (digitalRead(A2) == HIGH) {
-        crntTime = micros();
-    } else {
-        RX_yaw = (unsigned long)(micros() - crntTime);
-    }
-}
-
-void calcThrottle() {
-    static unsigned long crntTime;
-    if (digitalRead(A3) == HIGH) {
-        crntTime = micros();
-    } else {
-        RX_throttle = (unsigned long)(micros() - crntTime);
+    if (millis() - last_cmd_time > 500) {
+        target_Roll = 0.0f;
+        target_Pitch = 0.0f;
+        base_Throttle = 1000;
     }
 }
