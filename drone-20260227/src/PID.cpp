@@ -14,7 +14,6 @@ void initPID() {
     roll_prev = pitch_prev = yaw_prev = 0.0f; // 이전 오차 초기화
 }
 
-
 float calcPID_Roll(float targetRoll, float currentRoll) {
     // dt 계산 (config.h의 LOOP_TIME 기반)
     unsigned long now = micros();
