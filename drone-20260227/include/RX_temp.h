@@ -1,4 +1,4 @@
-#include "config.h"
+/* #include "config.h"
 #include "PinChangeInterrupt.h"
 
 volatile int RX_roll = 0, RX_pitch = 0, RX_yaw = 0, RX_throttle = 0;
@@ -17,3 +17,4 @@ void calcYaw() {
 
 void calcThrottle() {
 }
+*/

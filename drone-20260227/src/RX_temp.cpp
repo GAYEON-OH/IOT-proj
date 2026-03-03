@@ -1,8 +1,10 @@
 /* 수신기 제어
 외부 인터럽트, 핀 체인지 인터럽트, 명령 기록 */
 
+/*
+
 #include <Arduino.h>
-#include "RX.h"
+#include "RX_temp.h"
 
 void initRX() {
     attachPinChangeInterrupt(digitalPinToPinChangeInterrupt(A0), calcRoll, CHANGE);
@@ -46,3 +48,5 @@ void calcThrottle() {
         RX_throttle = (unsigned long)(micros() - crntTime);
     }
 }
+
+*/
