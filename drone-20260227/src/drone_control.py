@@ -63,6 +63,12 @@ def send_command():
         elif 'g' in active_keys:
             bt_serial.write(b'G')
             status_var.set("G")
+        elif 'q' in active_keys:
+            bt_serial.write(b'Q')
+            status_var.set("Q")
+        elif 'e' in active_keys:
+            bt_serial.write(b'E')
+            status_var.set("E")
         else:
             bt_serial.write(b'X')
             status_var.set("X")

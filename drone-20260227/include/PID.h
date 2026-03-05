@@ -9,4 +9,11 @@ float calcPID_Roll(float targetRoll, float currentRoll, float throttle);
 float calcPID_Pitch(float targetPitch, float currentPitch, float throttle);
 float calcPID_Yaw(float targetYaw, float currentYaw, float throttle);
 
-#endif
+float calcPID_Pitch(float targetPitch, float currentPitch) {
+}
+
+float calcPID_Yaw(float targetYaw, float currentYaw) {
+}
+
+float calcPID_Altitude(float targetAltitude, float currentAltitude) {
+}

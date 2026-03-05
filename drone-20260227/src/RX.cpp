@@ -9,7 +9,8 @@ void initRX() {
     btSerial.begin(9600);
     target_Roll = 0.0f;
     target_Pitch = 0.0f;
-    base_Throttle = 1000;
+    target_Yaw = 0.0f;
+    target_Alt = 0;
 }
 
 void readBluetooth() {
@@ -21,24 +22,29 @@ void readBluetooth() {
         else if (cmd == 'S' || cmd == 's') target_Pitch -= 1.0f;
         else if (cmd == 'A' || cmd == 'a') target_Roll -= 1.0f;
         else if (cmd == 'D' || cmd == 'd') target_Roll += 1.0f;
-        else if (cmd == 'T' || cmd == 't') base_Throttle += 10;
-        else if (cmd == 'G' || cmd == 'g') base_Throttle -= 10;
+        else if (cmd == 'T' || cmd == 't') target_Alt += 1;
+        else if (cmd == 'G' || cmd == 'g') target_Alt -= 1;
+        else if (cmd == 'Q' || cmd == 'q') target_Yaw -= 1.0f;
+        else if (cmd == 'E' || cmd == 'e') target_Yaw += 1.0f;
         else if (cmd == 'X' || cmd == 'x') {
             target_Roll = 0.0f; 
             target_Pitch = 0.0f;
+            target_Yaw = 0.0f;
         }
 
         if (target_Pitch > 30.0f) target_Pitch = 30.0f;
         if (target_Pitch < -30.0f) target_Pitch = -30.0f;
         if (target_Roll > 30.0f) target_Roll = 30.0f;
         if (target_Roll < -30.0f) target_Roll = -30.0f;
-        if (base_Throttle > 2000) base_Throttle = 2000;
-        if (base_Throttle < 1000) base_Throttle = 1000;
+        if (target_Yaw > 30.0f) target_Yaw = 30.0f;
+        if (target_Yaw < -30.0f) target_Yaw = -30.0f;
+        if (target_Alt > 100) target_Alt = 100;
+        if (target_Alt < 0) target_Alt = 0;
     }
 
     if (millis() - last_cmd_time > 500) {
         target_Roll = 0.0f;
         target_Pitch = 0.0f;
-        base_Throttle = 1000;
+        target_Yaw = 0.0f;
     }
 }
