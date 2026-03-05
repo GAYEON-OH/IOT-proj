@@ -109,3 +109,37 @@ float calcPID_Yaw(float targetYaw, float currentYaw) {
     last_time = now;
     return output;
 }
+
+
+float calcPID_Altitude(float target_Alt, float current_Alt) {
+    float Kp_Alt = 2.0f;
+    float Ki_Alt = 0.5f;
+    float Kd_Alt = 10.0f;
+
+    float dt = 0.004f;
+
+    static float prev_error = 0.0f;
+    static float integral = 0.0f;
+
+    float error = target_Alt - current_Alt;
+
+    float P = Kp_Alt * error;
+
+    integral += error * dt;
+    
+    if (integral > 150.0f) integral = 150.0f;
+    if (integral < -150.0f) integral = -150.0f;
+    float I = Ki_Alt * integral;
+
+    float derivative = (error - prev_error) / dt;
+    float D = Kd_Alt * derivative;
+
+    prev_error = error;
+
+    float output = P + I + D;
+
+    if (output > 200.0f) output = 200.0f;
+    if (output < -200.0f) output = -200.0f;
+
+    return output;
+}

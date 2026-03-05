@@ -14,3 +14,6 @@ float calcPID_Pitch(float targetPitch, float currentPitch) {
 
 float calcPID_Yaw(float targetYaw, float currentYaw) {
 }
+
+float calcPID_Altitude(float targetAltitude, float currentAltitude) {
+}
