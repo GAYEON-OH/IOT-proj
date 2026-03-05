@@ -2,18 +2,26 @@
 PWM 신호 출력, 모터 회전 방향 설정 */
 #include "Motor.h"
 #include <Arduino.h>
+#include "config.h"
+#include <Servo.h>
+
+Servo motorFL, motorFR, motorBL, motorBR;
 
 void initMotors() {
-    pinMode(PWM_FL, OUTPUT);
-    pinMode(PWM_FR, OUTPUT); 
-    pinMode(PWM_BL, OUTPUT);
-    pinMode(PWM_BR, OUTPUT);
+
+    motorFL.attach(PWM_FL);
+    motorFR.attach(PWM_FR);
+    motorBL.attach(PWM_BL);
+    motorBR.attach(PWM_BR);
+
     
-    // 모터 정지
-    analogWrite(PWM_FL, 0);
-    analogWrite(PWM_FR, 0);
-    analogWrite(PWM_BL, 0);
-    analogWrite(PWM_BR, 0);
+    motorFL.writeMicroseconds(1000);
+    motorFR.writeMicroseconds(1000);
+    motorBL.writeMicroseconds(1000);
+    motorBR.writeMicroseconds(1000);
+
+    delay(2000); 
+    
     
     Serial.println("모터 초기화 완료");
 }
@@ -25,15 +33,14 @@ void calcMotors(float throttle, float pid_roll, float pid_pitch, float pid_yaw) 
     float motor_bl = throttle - pid_roll - pid_pitch + pid_yaw;
     float motor_br = throttle + pid_roll - pid_pitch - pid_yaw;
     
-    // 출력 범위 제한 (0~1 → PWM 변환)
-    motor_fl = constrain(motor_fl, 0.0f, 1.0f) * 255;
-    motor_fr = constrain(motor_fr, 0.0f, 1.0f) * 255;
-    motor_bl = constrain(motor_bl, 0.0f, 1.0f) * 255;
-    motor_br = constrain(motor_br, 0.0f, 1.0f) * 255;
-    
-    // 모터 출력
-    analogWrite(PWM_FL, (int)motor_fl);
-    analogWrite(PWM_FR, (int)motor_fr);
-    analogWrite(PWM_BL, (int)motor_bl);
-    analogWrite(PWM_BR, (int)motor_br);
+    int out_fl = (int)constrain(motor_fl, 1000, 2000);
+    int out_fr = (int)constrain(motor_fr, 1000, 2000);
+    int out_bl = (int)constrain(motor_bl, 1000, 2000);
+    int out_br = (int)constrain(motor_br, 1000, 2000);
+
+    // 3. 모터에 최종 PWM 신호 출력 (마이크로초 단위 직접 전송)
+    motorFL.writeMicroseconds(out_fl);
+    motorFR.writeMicroseconds(out_fr);
+    motorBL.writeMicroseconds(out_bl);
+    motorBR.writeMicroseconds(out_br);
 }
