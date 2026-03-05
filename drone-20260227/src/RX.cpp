@@ -33,8 +33,8 @@ void readBluetooth() {
         if (target_Pitch < -30.0f) target_Pitch = -30.0f;
         if (target_Roll > 30.0f) target_Roll = 30.0f;
         if (target_Roll < -30.0f) target_Roll = -30.0f;
-        if (target_yaw > 30.0f) target_Yaw = 30.0f;
-        if (target_yaw < -30.0f) target_Yaw = -30.0f;
+        if (target_Yaw > 30.0f) target_Yaw = 30.0f;
+        if (target_Yaw < -30.0f) target_Yaw = -30.0f;
         if (base_Throttle > 2000) base_Throttle = 2000;
         if (base_Throttle < 1000) base_Throttle = 1000;
     }

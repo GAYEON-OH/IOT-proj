@@ -10,6 +10,9 @@
 #define PWM_BL 6
 #define PWM_BR 9
 
+#define TRIG_PIN 12
+#define ECHO_PIN 13
+
 /* 모터 최소/최대 펄스 폭 (마이크로초) */
 #define MOTOR_MIN 1000
 #define MOTOR_MAX 2000
