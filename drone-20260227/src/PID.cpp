@@ -9,30 +9,19 @@ static float roll_int = 0.0f, pitch_int = 0.0f, yaw_int = 0.0f;
 static float roll_prev = 0.0f, pitch_prev = 0.0f, yaw_prev = 0.0f;
 static unsigned long last_time = 0;
 
-float R_P = 1.0f, R_I = 0.0f, R_D = 0.0f;
-float P_P = 1.0f, P_I = 0.0f, P_D = 0.0f;
-float Y_P = 1.0f, Y_I = 0.0f, Y_D = 0.0f;
-
 void initPID() {
     roll_int = pitch_int = yaw_int = 0.0f;  // 적분값 초기화
     roll_prev = pitch_prev = yaw_prev = 0.0f; // 이전 오차 초기화
 }
 
-<<<<<<< Updated upstream
 float calcPID_Roll(float targetRoll, float currentRoll) {
-=======
-float calcPID_Roll(float target__Roll, float current__Roll,float throttle) {
-    float error = 0.0f, P_error = 0.0f, I_error = 0.0f, D_error = 0.0f;
-    float P_out = 0.0f, I_out = 0.0f, D_out = 0.0f;
-
->>>>>>> Stashed changes
     /* dt 계산 (config.h의 LOOP_TIME 기반) */
     unsigned long now = micros();
     float dt = (float)(now - last_time) / 1000000.0f;
     if (dt > 0.02f) dt = DT;  /* 250Hz 제한 */
     
     /* 1. 오차 계산 */
-    error = target__Roll - current__Roll;
+    error = targetRoll - currentRoll;
     
     /* 2. P(비례항) */
     P_error = error;
@@ -61,18 +50,12 @@ float calcPID_Roll(float target__Roll, float current__Roll,float throttle) {
     return output;
 }
 
-<<<<<<< Updated upstream
 float calcPID_Pitch(float targetPitch, float currentPitch) {
-=======
-float calcPID_Pitch(float target_Pitch, float current_Pitch, float throttle) {
-    float error = 0.0f, P_error = 0.0f, I_error = 0.0f, D_error = 0.0f;
-    float P_out = 0.0f, I_out = 0.0f, D_out = 0.0f;
->>>>>>> Stashed changes
     unsigned long now = micros();
     float dt = (float)(now - last_time) / 1000000.0f;
     if (dt > 0.02f) dt = DT;
     
-    error = target_Pitch - current_Pitch;
+    error = targetPitch - currentPitch;
     
     P_error = error;
     P_out = P_P * P_error;
@@ -97,18 +80,12 @@ float calcPID_Pitch(float target_Pitch, float current_Pitch, float throttle) {
     return output;
 }
 
-<<<<<<< Updated upstream
 float calcPID_Yaw(float targetYaw, float currentYaw) {
-=======
-float calcPID_Yaw(float target_Yaw, float current_Yaw,float throttle) {
-    float error = 0.0f, P_error = 0.0f, I_error = 0.0f, D_error = 0.0f;
-    float P_out = 0.0f, I_out = 0.0f, D_out = 0.0f;
->>>>>>> Stashed changes
     unsigned long now = micros();
     float dt = (float)(now - last_time) / 1000000.0f;
     if (dt > 0.02f) dt = DT;
     
-    error = target_Yaw - current_Yaw;
+    error = targetYaw - currentYaw;
     
     P_error = error;
     P_out = Y_P * P_error;

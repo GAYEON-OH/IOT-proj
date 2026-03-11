@@ -30,8 +30,8 @@ float AX_offset = 0.0f, AY_offset = 0.0f, AZ_offset = 0.0f;
 float GX_offset = 0.0f, GY_offset = 0.0f, GZ_offset = 0.0f;
 
 /* Roll, Pitch, Yaw / P(비례), I(적분), D(미분) */
-extern float R_P, R_I, R_D;
-extern float P_P, P_I, P_D;
-extern float Y_P, Y_I, Y_D;
+float R_P = 1.0f, R_I = 0.0f, R_D = 0.0f;
+float P_P = 1.0f, P_I = 0.0f, P_D = 0.0f;
+float Y_P = 1.0f, Y_I = 0.0f, Y_D = 0.0f;
 
 #endif
