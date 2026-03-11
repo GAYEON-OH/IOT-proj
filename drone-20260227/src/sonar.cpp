@@ -21,12 +21,12 @@ float getSonarDistance() {
     delayMicroseconds(10);
     digitalWrite(TRIG_PIN, LOW);
 
-    long duration = pulseIn(ECHO_PIN, HIGH, 3000); // 최대 3ms 대기 (약 50cm 거리)
+    long duration = pulseIn(ECHO_PIN, HIGH, 3000); /* 최대 3ms 대기 (약 50cm 거리) */
     if (duration == 0) {
-        sonar_distance = 100.0f; // 최대 거리로 간주 (3ms 이상 응답 없으면)
+        sonar_distance = 100.0f; /* 최대 거리로 간주 (3ms 이상 응답 없으면) */
     }
     else {
-        sonar_distance = (duration / 2.0f) * 0.0343f; // cm 단위
+        sonar_distance = (duration / 2.0f) * 0.0343f;
     }
 
     return sonar_distance;
