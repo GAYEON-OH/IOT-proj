@@ -5,12 +5,13 @@ SoftwareSerial btSerial(10, 11);
 
 unsigned long last_cmd_time = 0;
 
+float target_Roll = 0.0f;
+float target_Pitch = 0.0f;
+float target_Yaw = 0.0f;
+float target_Alt = 0;
+
 void initRX() {
     btSerial.begin(9600);
-    target_Roll = 0.0f;
-    target_Pitch = 0.0f;
-    target_Yaw = 0.0f;
-    target_Alt = 0;
 }
 
 void readBluetooth() {

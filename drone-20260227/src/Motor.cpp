@@ -27,7 +27,7 @@ void initMotors() {
 }
 
 void calcMotors(float throttle, float pid_roll, float pid_pitch, float pid_yaw) {
-    // 기본 throttle + PID 보정
+    /* 기본 throttle + PID 보정 */
     float motor_fl = throttle - pid_roll + pid_pitch - pid_yaw;
     float motor_fr = throttle + pid_roll + pid_pitch + pid_yaw;
     float motor_bl = throttle - pid_roll - pid_pitch + pid_yaw;
@@ -38,7 +38,7 @@ void calcMotors(float throttle, float pid_roll, float pid_pitch, float pid_yaw) 
     int out_bl = (int)constrain(motor_bl, 1000, 2000);
     int out_br = (int)constrain(motor_br, 1000, 2000);
 
-    // 3. 모터에 최종 PWM 신호 출력 (마이크로초 단위 직접 전송)
+    /* 모터에 최종 PWM 신호 출력 (마이크로초 단위 직접 전송) */
     motorFL.writeMicroseconds(out_fl);
     motorFR.writeMicroseconds(out_fr);
     motorBL.writeMicroseconds(out_bl);

@@ -9,12 +9,16 @@ static unsigned long last_time_roll = 0;
 static unsigned long last_time_pitch = 0;
 static unsigned long last_time_yaw = 0;
 
+float R_P = 1.0f, R_I = 0.0f, R_D = 0.0f;
+float P_P = 1.0f, P_I = 0.0f, P_D = 0.0f;
+float Y_P = 1.0f, Y_I = 0.0f, Y_D = 0.0f;
+
 void initPID() {
     roll_int = pitch_int = yaw_int = 0.0f;  // 적분값 초기화
     roll_prev = pitch_prev = yaw_prev = 0.0f; // 이전 오차 초기화
 }
 
-float calcPID_Roll(float targetRoll, float currentRoll,float throttle) {
+float calcPID_Roll(float target__Roll, float current__Roll,float throttle) {
     float error = 0.0f, P_error = 0.0f, I_error = 0.0f, D_error = 0.0f;
     float P_out = 0.0f, I_out = 0.0f, D_out = 0.0f;
 
@@ -24,7 +28,7 @@ float calcPID_Roll(float targetRoll, float currentRoll,float throttle) {
     if (dt > 0.02f) dt = DT;  /* 250Hz 제한 */
     
     /* 1. 오차 계산 */
-    error = targetRoll - currentRoll;
+    error = target__Roll - current__Roll;
     
     /* 2. P(비례항) */
     P_error = error;
@@ -54,14 +58,14 @@ float calcPID_Roll(float targetRoll, float currentRoll,float throttle) {
     return output;
 }
 
-float calcPID_Pitch(float targetPitch, float currentPitch,float throttle) {
+float calcPID_Pitch(float target_Pitch, float current_Pitch, float throttle) {
     float error = 0.0f, P_error = 0.0f, I_error = 0.0f, D_error = 0.0f;
     float P_out = 0.0f, I_out = 0.0f, D_out = 0.0f;
     unsigned long now = micros();
     float dt = (float)(now - last_time_pitch) / 1000000.0f;
     if (dt > 0.02f) dt = DT;
     
-    error = targetPitch - currentPitch;
+    error = target_Pitch - current_Pitch;
     
     P_error = error;
     P_out = P_P * P_error;
@@ -88,14 +92,14 @@ float calcPID_Pitch(float targetPitch, float currentPitch,float throttle) {
     return output;
 }
 
-float calcPID_Yaw(float targetYaw, float currentYaw,float throttle) {
+float calcPID_Yaw(float target_Yaw, float current_Yaw,float throttle) {
     float error = 0.0f, P_error = 0.0f, I_error = 0.0f, D_error = 0.0f;
     float P_out = 0.0f, I_out = 0.0f, D_out = 0.0f;
     unsigned long now = micros();
     float dt = (float)(now - last_time_yaw) / 1000000.0f;
     if (dt > 0.02f) dt = DT;
     
-    error = targetYaw - currentYaw;
+    error = target_Yaw - current_Yaw;
     
     P_error = error;
     P_out = Y_P * P_error;
